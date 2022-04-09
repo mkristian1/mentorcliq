@@ -1,0 +1,9 @@
+// Theme
+$theme-colors: (
+   "primary": #00a1e0,
+);
+
+$form-check-input-checked-bg-color: var(--mk-main-sec);
+
+
+@import "~bootstrap/scss/bootstrap";
