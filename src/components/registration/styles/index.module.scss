@@ -1,7 +1,15 @@
-.first-step {
-    max-width: 400px;
+.step {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+}
+
+.first-step {
+    max-width: 400px;
+}
+
+.second-step,
+.third-step {
+    max-width: 650px;
 }

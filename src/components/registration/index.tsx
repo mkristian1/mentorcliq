@@ -1,9 +1,27 @@
 import { useFormik } from "formik";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { STEPS_TYPE } from "../../const";
 import { schemaRegistration } from "../../schema";
-import FristStep from "./steps/firstStep";
+import { IUsers } from "../../types";
+import FirstStep from "./steps/firstStep";
+import SecondStep from "./steps/secondStep";
+import ThirdStep from "./steps/thirdStep";
+
 
 const Registration: FC = () => {
+    const [step, setStep] = useState<number>(STEPS_TYPE.third);
+
+    const handleSubmit = (data: IUsers) => {
+        if (step === STEPS_TYPE.first) {
+            setStep(STEPS_TYPE.second)
+        }
+        if (step === STEPS_TYPE.second) {
+            setStep(STEPS_TYPE.third)
+        }
+        console.log(step);
+
+    }
+
     const formik = useFormik({
         initialValues: {
             password: "",
@@ -16,14 +34,18 @@ const Registration: FC = () => {
             country: "",
             city: ""
         },
-        onSubmit: (data) => console.log(data),
+        onSubmit: (data) => handleSubmit(data),
         validationSchema: schemaRegistration,
+        validateOnChange: false,
+        validateOnBlur: false,
     })
 
     return (
-        <div>
-            <FristStep formik={formik} />
-        </div>
+        <>
+            {step === STEPS_TYPE.first && <FirstStep formik={formik} />}
+            {step === STEPS_TYPE.second && <SecondStep formik={formik} />}
+            {step === STEPS_TYPE.third && <ThirdStep />}
+        </>
     )
 }
 
