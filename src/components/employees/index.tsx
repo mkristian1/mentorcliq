@@ -1,20 +1,25 @@
-import { FC } from "react";
+import axios from "axios";
+import { FC, useEffect } from "react";
+import api from "../../api";
 import { useAppSelector } from "../../hooks/toolkit";
-import { addUser } from "../../reduxToolkit/slices/users";
+import { addUser, fetchEmployess } from "../../reduxToolkit/slices/users";
 import { useAppDispatch } from "../../store";
 
-const Employess = () => {
+const Employess: FC = () => {
   const { users } = useAppSelector(state => state.users)
   const dispatch = useAppDispatch();
-  console.log(users);
+
+  useEffect(() => {
+    dispatch(fetchEmployess())
+  }, [])
 
   return (
-    <div className="App">
-      <button onClick={() => dispatch(addUser({ firstName: 'Ryu', lastName: 'ST' }))}>Add User</button>
+    <div className="employess">
+      {/* <button onClick={() => dispatch(addUser({ first_name: 'Ryu', last_name: 'ST' }))}>Add User</button> */}
       <ul>
         {users.map((user: any) => {
           return (
-            <li key={user.firstName}>{user.firstName} {user.lastName}</li>
+            <li key={user.id}>{user.first_name} {user.last_name}</li>
           )
         })}
       </ul>
