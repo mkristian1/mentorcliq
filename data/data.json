@@ -1,7 +1,23 @@
 {
-    "auth": {
-        "email": "mk@mail.ru"
-    },
+    "users": [
+        {
+            "password": "garpix911",
+            "first_name": "",
+            "last_name": "",
+            "email": "garpix@garpix.com",
+            "gender": "",
+            "department": "",
+            "job_title": "",
+            "country": "",
+            "city": "",
+            "suggest": [
+                2,
+                3,
+                4
+            ],
+            "id": 4
+        }
+    ],
     "employess": [
         {
             "first_name": "Marigold",

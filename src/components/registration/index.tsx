@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import { FC, useState } from "react";
+import api from "../../api";
 import { STEPS_TYPE } from "../../const";
 import { schemaRegistration } from "../../schema";
 import { IUsers } from "../../types";
@@ -9,17 +10,15 @@ import ThirdStep from "./steps/thirdStep";
 
 
 const Registration: FC = () => {
-    const [step, setStep] = useState<number>(STEPS_TYPE.third);
+    const [step, setStep] = useState<number>(STEPS_TYPE.first);
 
-    const handleSubmit = (data: IUsers) => {
+    const handleSubmit = async (data: IUsers) => {
         if (step === STEPS_TYPE.first) {
             setStep(STEPS_TYPE.second)
         }
         if (step === STEPS_TYPE.second) {
             setStep(STEPS_TYPE.third)
         }
-        console.log(step);
-
     }
 
     const formik = useFormik({
@@ -44,7 +43,7 @@ const Registration: FC = () => {
         <>
             {step === STEPS_TYPE.first && <FirstStep formik={formik} />}
             {step === STEPS_TYPE.second && <SecondStep formik={formik} />}
-            {step === STEPS_TYPE.third && <ThirdStep />}
+            {step === STEPS_TYPE.third && <ThirdStep formik={formik} />}
         </>
     )
 }

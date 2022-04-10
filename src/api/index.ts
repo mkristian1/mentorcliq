@@ -5,8 +5,16 @@ class Api {
     constructor(url: string) {
         this.url = url;
     }
-    getEmployess = async () => {
-        const { data } = await axios.get(`${this.url}/employess`);
+    getEmployess = async (params?: any) => {
+        const { data } = await axios.get(`${this.url}/employess`, { params: { params } });
+        return data;
+    }
+    getUser = async (params?: any) => {
+        const { data } = await axios.get(`${this.url}/users`, { params });
+        return data;
+    }
+    createUser = async (params: any) => {
+        const { data } = await axios.post(`${this.url}/users`, params);
         return data;
     }
 }

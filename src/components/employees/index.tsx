@@ -4,11 +4,18 @@ import { useAppSelector } from "../../hooks/toolkit";
 import { noAvatar } from "../../images";
 import { addSuggest, fetchEmployess } from "../../reduxToolkit/slices/users";
 import { useAppDispatch } from "../../store";
-import { getSuggestStatusUsers } from "../../utils";
+import { IUsers } from "../../types";
+import { FormikProps } from 'formik';
+import { getArrId, getSuggestStatusUsers } from "../../utils";
 import SelectedSuggestions from "./selectedSuggestions";
 import styles from "./styles/index.module.scss";
+import api from "../../api";
 
-const Employess: FC = () => {
+interface IEmployess {
+  formik: FormikProps<IUsers>,
+}
+
+const Employess: FC<IEmployess> = ({ formik }) => {
   const { users } = useAppSelector(state => state.users)
   const dispatch = useAppDispatch();
   const suggestUsers = useMemo(() => getSuggestStatusUsers(users), [users])
@@ -23,9 +30,25 @@ const Employess: FC = () => {
     }
   }
 
+  const handleCreateUser = async () => {
+    await api.createUser({ ...formik.values, suggest: getArrId(suggestUsers) })
+    const res = await api.getUser({ email: formik.values.email, password: formik.values.password })
+   
+  }
+
   return (
     <div className="employess">
       <SelectedSuggestions suggestUsers={suggestUsers} />
+      <div className="d-grid gap-2 mb-4">
+        <Button
+          onClick={handleCreateUser}
+          disabled={suggestUsers.length < 1}
+          variant="primary"
+          className="text-white"
+        >
+          Confirm
+        </Button>
+      </div>
       <h2>Employees</h2>
       <ul className={styles['users__ul']}>
         {users.map((user: any) => {

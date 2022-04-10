@@ -15,3 +15,9 @@ export const getSuggestStatusUsers = (arr: IUsers[],) => {
         return user.suggest;
     })
 }
+
+export const getArrId = (arr: any) => {
+    return arr.map((item: any) => {
+        return item.id
+    })
+}
