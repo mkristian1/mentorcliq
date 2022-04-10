@@ -1,4 +1,5 @@
 export interface IUsers {
+    id?: number,
     password: string,
     first_name: string,
     last_name: string,
@@ -7,5 +8,6 @@ export interface IUsers {
     department: string,
     job_title: string,
     country: string,
-    city: string
+    city: string,
+    suggest?: boolean,
 }

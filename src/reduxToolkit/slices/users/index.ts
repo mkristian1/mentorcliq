@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import api from "../../../api/index";
 import { IUsers } from "../../../types";
+import { suggestStatus } from "../../../utils";
 
 export const fetchEmployess = createAsyncThunk('employess/fetchEmployess',
     async () => {
@@ -12,11 +13,14 @@ export const fetchEmployess = createAsyncThunk('employess/fetchEmployess',
 const usersSlice = createSlice({
     name: 'users',
     initialState: {
-        users: []
+        users: [] as IUsers[]
     },
     reducers: {
-        addUser: (state, action: PayloadAction<IUsers>) => {
-
+        addSuggest: (state, action: PayloadAction<number>) => {
+            return { ...state, users: suggestStatus(state.users, action.payload, true) }
+        },
+        removeSuggest: (state, action: PayloadAction<number>) => {
+            return { ...state, users: suggestStatus(state.users, action.payload, false) }
         }
     },
     extraReducers: (builder) => {
@@ -27,6 +31,6 @@ const usersSlice = createSlice({
 
 })
 
-export const { addUser } = usersSlice.actions
+export const { addSuggest, removeSuggest } = usersSlice.actions
 
 export default usersSlice.reducer;

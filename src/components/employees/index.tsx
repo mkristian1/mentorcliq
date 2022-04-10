@@ -1,24 +1,32 @@
-import axios from "axios";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { Button } from "react-bootstrap";
-import api from "../../api";
 import { useAppSelector } from "../../hooks/toolkit";
 import { noAvatar } from "../../images";
-import { addUser, fetchEmployess } from "../../reduxToolkit/slices/users";
+import { addSuggest, fetchEmployess } from "../../reduxToolkit/slices/users";
 import { useAppDispatch } from "../../store";
+import { getSuggestStatusUsers } from "../../utils";
+import SelectedSuggestions from "./selectedSuggestions";
 import styles from "./styles/index.module.scss";
 
 const Employess: FC = () => {
   const { users } = useAppSelector(state => state.users)
   const dispatch = useAppDispatch();
+  const suggestUsers = useMemo(() => getSuggestStatusUsers(users), [users])
 
   useEffect(() => {
     dispatch(fetchEmployess())
   }, [])
 
+  const handleAddSuggest = (id: number) => {
+    return () => {
+      dispatch(addSuggest(id))
+    }
+  }
+
   return (
     <div className="employess">
-      {/* <button onClick={() => dispatch(addUser({ first_name: 'Ryu', last_name: 'ST' }))}>Add User</button> */}
+      <SelectedSuggestions suggestUsers={suggestUsers} />
+      <h2>Employees</h2>
       <ul className={styles['users__ul']}>
         {users.map((user: any) => {
           return (
@@ -33,7 +41,13 @@ const Employess: FC = () => {
                 <p className={styles['users__p']}>Country: {user.country}</p>
                 <p className={styles['users__p']}>City: {user.city}</p>
               </div>
-              <Button variant="outline-warning">Match</Button>
+              <Button
+                disabled={user.suggest || suggestUsers.length >= 5}
+                onClick={handleAddSuggest(user.id)}
+                variant="warning"
+              >
+                {user.suggest ? 'Added' : 'Add'}
+              </Button>
             </li>
           )
         })}
