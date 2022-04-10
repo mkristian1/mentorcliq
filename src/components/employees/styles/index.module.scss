@@ -1,0 +1,30 @@
+.users {
+    &__ul {
+        padding-left: 0;
+        list-style-type: none;
+    }
+    &__li {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        border-top: solid var(--mk-boder-color) 1px;
+        border-bottom: solid var(--mk-boder-color) 1px;
+        padding: 20px;
+    }
+    &__main-info {
+        width: 120px;
+        margin-bottom: 0;
+    }
+    &__info {
+        width: 190px;
+    }
+    &__p {
+        margin-bottom: 2px;
+    }
+    &__img {
+        max-width: 60px;
+    }
+}
