@@ -4,18 +4,19 @@ import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../../const";
 import { useAppSelector } from "../../../hooks/toolkit";
+import { ryu } from "../../../images";
 import styles from "./styles/index.module.scss";
 
 const ProfilePageComponent = () => {
     const { currentUser, users } = useAppSelector(state => state.users)
     const employess = useMemo(() => users.filter((user: any) => currentUser.suggest.includes(user.id)), [currentUser.suggest])
     const navigate = useNavigate();
-console.log(currentUser);
 
     return (
         <Container>
             <div className={cn('shadow-sm p-5 rounded')}>
                 <h2>Profile</h2>
+                <img className={styles['avatar']} alt="Ryu" src={ryu} />
                 <p className="mb-0">First Name: {currentUser.first_name}</p>
                 <p className="mb-0">Last Name: {currentUser.last_name}</p>
                 <p>Email: {currentUser.email}</p>
