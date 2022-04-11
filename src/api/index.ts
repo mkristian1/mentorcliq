@@ -17,6 +17,10 @@ class Api {
         const { data } = await axios.post(`${this.url}/users`, params);
         return data;
     }
+    updateUser = async (id: number, params: any) => {
+        const { data } = await axios.put(`${this.url}/users/${id}`, params);
+        return data;
+    }
 }
 
 

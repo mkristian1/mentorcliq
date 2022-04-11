@@ -3,3 +3,8 @@ export enum STEPS_TYPE {
     second,
     third,
 }
+
+export const PATHS = {
+    profile: '/profile',
+    suggestions: '/suggestions',
+}

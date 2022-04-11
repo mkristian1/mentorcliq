@@ -2,7 +2,7 @@ import { FC, useEffect, useMemo } from "react";
 import { Button } from "react-bootstrap";
 import { useAppSelector } from "../../hooks/toolkit";
 import { noAvatar } from "../../images";
-import { addSuggest, fetchEmployess } from "../../reduxToolkit/slices/users";
+import { addSuggest, fetchEmployess, setCurrentUser } from "../../reduxToolkit/slices/users";
 import { useAppDispatch } from "../../store";
 import { IUsers } from "../../types";
 import { FormikProps } from 'formik';
@@ -10,15 +10,18 @@ import { getArrId, getSuggestStatusUsers } from "../../utils";
 import SelectedSuggestions from "./selectedSuggestions";
 import styles from "./styles/index.module.scss";
 import api from "../../api";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../const";
 
 interface IEmployess {
-  formik: FormikProps<IUsers>,
+  formik?: FormikProps<IUsers>,
 }
 
 const Employess: FC<IEmployess> = ({ formik }) => {
-  const { users } = useAppSelector(state => state.users)
+  const { users, currentUser } = useAppSelector(state => state.users)
   const dispatch = useAppDispatch();
   const suggestUsers = useMemo(() => getSuggestStatusUsers(users), [users])
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(fetchEmployess())
@@ -31,9 +34,26 @@ const Employess: FC<IEmployess> = ({ formik }) => {
   }
 
   const handleCreateUser = async () => {
-    await api.createUser({ ...formik.values, suggest: getArrId(suggestUsers) })
-    const res = await api.getUser({ email: formik.values.email, password: formik.values.password })
-   
+    try {
+      if (formik) {
+        await api.createUser({ ...formik.values, suggest: getArrId(suggestUsers) })
+        const [user] = await api.getUser({ email: formik.values.email, password: formik.values.password })
+        dispatch(setCurrentUser(user))
+        navigate(PATHS.profile)
+      }
+    } catch (e) {
+      console.log(e);
+
+    }
+  }
+  const handleUpdateUser = async () => {
+    try {
+      const user = await api.updateUser(currentUser.id, { ...currentUser, suggest: getArrId(suggestUsers) })
+      dispatch(setCurrentUser(user))
+      navigate(PATHS.profile)
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
@@ -41,7 +61,7 @@ const Employess: FC<IEmployess> = ({ formik }) => {
       <SelectedSuggestions suggestUsers={suggestUsers} />
       <div className="d-grid gap-2 mb-4">
         <Button
-          onClick={handleCreateUser}
+          onClick={formik ? handleCreateUser : handleUpdateUser}
           disabled={suggestUsers.length < 1}
           variant="primary"
           className="text-white"

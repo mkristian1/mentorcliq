@@ -1,0 +1,12 @@
+.suggestions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    &__item {
+        padding: 5px 20px;
+        border: solid 1px var(--mk-boder-color);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+}

@@ -13,14 +13,18 @@ export const fetchEmployess = createAsyncThunk('employess/fetchEmployess',
 const usersSlice = createSlice({
     name: 'users',
     initialState: {
-        users: [] as IUsers[]
-    },
+        users: [],
+        currentUser: {},
+    } as { users: IUsers[], currentUser: any },
     reducers: {
         addSuggest: (state, action: PayloadAction<number>) => {
             return { ...state, users: suggestStatus(state.users, action.payload, true) }
         },
         removeSuggest: (state, action: PayloadAction<number>) => {
             return { ...state, users: suggestStatus(state.users, action.payload, false) }
+        },
+        setCurrentUser: (state, action: PayloadAction<number>) => {
+            return { ...state, currentUser: action.payload }
         }
     },
     extraReducers: (builder) => {
@@ -31,6 +35,6 @@ const usersSlice = createSlice({
 
 })
 
-export const { addSuggest, removeSuggest } = usersSlice.actions
+export const { addSuggest, removeSuggest, setCurrentUser } = usersSlice.actions
 
 export default usersSlice.reducer;

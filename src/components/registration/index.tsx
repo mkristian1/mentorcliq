@@ -1,6 +1,5 @@
 import { useFormik } from "formik";
 import { FC, useState } from "react";
-import api from "../../api";
 import { STEPS_TYPE } from "../../const";
 import { schemaRegistration } from "../../schema";
 import { IUsers } from "../../types";
