@@ -3,5 +3,5 @@
 
 ### `npm i`
 ### `npm start`
-### ` npx json-server --watch data/data.json --port 8000` Please dont forget:)
+### ` npx json-server --watch data/data.json --port 8000` Please dont forget :)
 
